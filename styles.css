@@ -1,0 +1,28 @@
+*{
+  display:block;
+  margin: auto;
+  text-align: center;
+}
+input[name="radio-buttons"]{
+  display: inline-block !important;
+  margin-left: 1%;
+}
+#description{
+  margin-bottom: 3%;
+}
+body{
+  background-image: url('https://img.freepik.com/free-photo/light-gray-abstract-background_53876-101909.jpg');
+}
+main{
+  border-radius: 10px;
+  margin: 3% 10% 5% 10%;
+  background-color: rgba(140, 140, 140, 0.8);
+  padding: 1%;
+  min-width: 500px;
+  min-height: 500px;
+  height: 80vh;
+}
+
+main *{
+  margin-top: 0.5%;
+}
