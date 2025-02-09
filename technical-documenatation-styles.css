@@ -1,0 +1,67 @@
+html{
+  position: absolute;
+  width: 100%;
+  background-color: white;
+}
+body{
+  min-width: 400px;
+}
+#navbar, #main-doc{
+  display: inline-block
+}
+#navbar{
+  background-color: grey;
+  width: 28%;
+  position: fixed;
+  padding: 3px;
+  border-radius: 5%;
+}
+#navbar li{
+    display: block;
+    border: 2px solid black;
+    height: calc(98%/10);
+    margin-top: 1px;
+}
+#navbar ul{
+  list-style-type: none;
+  margin-left: -40px;
+}
+#main-doc{
+  padding-left: 33%;
+}
+
+header{
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+code{
+  display: block;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding:  20px;
+  background-color: #ffcce5;
+}
+code.code-bash::before, code.code-python::before {
+  display: block;
+  color: black;
+  opacity: 0.6;
+  margin-left: -10px;
+}
+
+code.code-bash::before{
+  content: "bash";
+}
+
+code.code-python::before{
+  content: "python"
+}
+h3{
+  font-size: 1rem;
+}
+
+@media(min-width: 1000px){
+  html{
+    font-size: 2rem;
+  }
+}
