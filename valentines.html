@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: #ff4d4d;
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        p {
+            font-size: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .heart {
+            font-size: 50px;
+            color: #ff4d4d;
+            margin-top: 20px;
+        }
+        .slideshow-container {
+            max-width: 100%;
+            position: relative;
+            margin-top: 30px;
+        }
+        .mySlides {
+            display: none;
+            width: 100%;
+            border-radius: 10px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 12px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #e64040;
+        }
+
+        /* Heart decorations */
+        .heart-decoration {
+            font-size: 30px;
+            color: #ff4d4d;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .heart-decoration:nth-child(2) {
+            left: 20px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Valentine's Day, My Love!</h1>
+        <p>On this special day, I want you to know how much you mean to me. Every moment with you is magical, and I cherish you with all my heart.</p>
+        <p>Thank you for being my everything! I look forward to many more memories with you.</p>
+        
+        <!-- Heart decoration -->
+        <div class="heart-decoration">❤️</div>
+        <div class="heart-decoration">💖</div>
+
+        <!-- Slideshow -->
+        <div class="slideshow-container">
+            <img class="mySlides" src="image1.jpg" alt="Love Photo 1">
+            <img class="mySlides" src="image2.jpg" alt="Love Photo 2">
+            <img class="mySlides" src="image3.jpg" alt="Love Photo 3">
+        </div>
+        
+        <!-- Heart icon -->
+        <div class="heart">❤️</div>
+
+        <!-- Love Button -->
+        <a href="#" class="button">I Love You!</a>
+    </div>
+
+    <script>
+        // Slideshow functionality
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("mySlides");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 4000); // Change image every 4 seconds
+        }
+    </script>
+</body>
+</html>
