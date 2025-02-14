@@ -4,125 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Valentine's Day!</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f0f0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            background: url(https://subtlepatterns.com/patterns/noise_lines.png);
+            font-family: "Pacifico", cursive;
+            overflow: hidden;
+            color: #fff;
+        }
+        .bgoverlay {
+            background: rgb(103, 58, 183);
+            background: rgba(103, 58, 183, 0.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
         .container {
-            text-align: center;
-            background-color: #fff;
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            width: 100%;
-        }
-        h1 {
-            color: #ff4d4d;
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        p {
-            font-size: 20px;
-            color: #555;
-            line-height: 1.6;
-        }
-        .heart {
-            font-size: 50px;
-            color: #ff4d4d;
-            margin-top: 20px;
-        }
-        .slideshow-container {
-            max-width: 100%;
             position: relative;
-            margin-top: 30px;
-        }
-        .mySlides {
-            display: none;
-            width: 100%;  /* Set width to 100% of the container */
-            height: 400px; /* Set a constant height */
-            object-fit: cover; /* Maintain aspect ratio without distorting */
-            border-radius: 10px;
-        }
-        .button {
-            display: inline-block;
-            background-color: #ff4d4d;
-            color: white;
-            padding: 12px 20px;
-            font-size: 18px;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-top: 30px;
-            transition: background-color 0.3s ease;
-        }
-        .button:hover {
-            background-color: #e64040;
+            margin: 120px auto 0 auto;
+            width: 320px;
         }
 
-        /* Heart decorations */
-        .heart-decoration {
-            font-size: 30px;
-            color: #ff4d4d;
+        .ico {
+            display: block;
+            width: 320px;
+            height: 320px;
+        }
+        .open .ico {
+            animation: open 4s;
+            transform: scale(10);
+        }
+        .ico .title {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -95px;
+            margin-top: -73px;
+            z-index: 4;
+            font-size: 50px;
+            font-family: "Pacifico", cursive;
+            color: #fff;
+            cursor: pointer;
+            text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
         }
-        .heart-decoration:nth-child(2) {
-            left: 20px;
-            top: 100px;
+        .open .ico .title {
+            opacity: 0;
+            transition: all 0.3s ease;
+            top: -100px;
         }
+        .ico:before,
+        .ico:after,
+        .ico2:before,
+        .ico2:after {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .ico:before,
+        .ico:after,
+        .ico2:before,
+        .ico2:after {
+            display: block;
+            font-size: 20em;
+            color: #ff4081;
+            content: "\f004";
+            font-family: FontAwesome;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .ico2:before,
+        .ico2:after {
+            color: #e91e63;
+        }
+        .ico:before {
+            z-index: 3;
+        }
+        .ico:after {
+            animation: explode 4s infinite;
+        }
+
+        .ico2:before {
+            animation: explodeSmall 3s infinite;
+        }
+        .ico2:after {
+            animation: explodeSmall 2s infinite;
+        }
+
+        .endtext {
+            opacity: 0;
+            position: absolute;
+            top: -100px;
+            width: 100%;
+        }
+        .open .endtext {
+            top: 0;
+            opacity: 1;
+            animation: show 5s;
+        }
+        .endtext .close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+        }
+        .endtext h1,
+        .endtext h2,
+        .endtext h3 {
+            text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-weight: normal;
+        }
+        .endtext h1 {
+            font-size: 50px;
+        }
+        .endtext h2 {
+            font-size: 30px;
+        }
+        .endtext h3 {
+            font-size: 20px;
+        }
+
+        @keyframes explode {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+        @keyframes explodeSmall {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes open {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(10);
+            }
+        }
+
+        @keyframes show {
+            from {
+                opacity: 0;
+                top: -100px;
+            }
+            to {
+                opacity: 1;
+                top: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Happy Valentine's Day, My Love!</h1>
-        <p>On this special day, I want you to know how much you mean to me. Every moment with you is magical, and I cherish you with all my heart.</p>
-        <p>Thank you for being my everything! I look forward to many more memories with you.</p>
-        
-        <!-- Heart decoration -->
-        <div class="heart-decoration">❤️</div>
-        <div class="heart-decoration">💖</div>
 
-        <!-- Slideshow -->
-        <div class="slideshow-container">
-            <img class="mySlides" src="image1.jpg" alt="Love Photo 1">
-            <img class="mySlides" src="image2.jpeg" alt="Love Photo 2">
-            <img class="mySlides" src="image3.jpg" alt="Love Photo 3">
+    <!-- Happy Valentines day Codepen! -->
+    <div class="bgoverlay">
+        <div class="container">
+            <span class="ico">
+                <span class="ico2"></span>
+                <span class="title">Click Me</span>
+            </span>
+            <div class="endtext">
+                <span class="close" title="Restart"><i class="fa fa-times"></i></span>
+                <h1>I love you baby</h1>
+                <h2>You are the reason of my happiness.....u made me feel so safe around u....in the very starting i have no idea that u will become this much important for me but now u became the reason of my happy life ....u made me feel so precious and valuable that now i also started liking myself ... thankyou for coming into my life and please never ever leave me ...i want to spend my rest of the life with u and i want u to be my forever wala valentine </h2>
+                <p>
+                <h2> Will u be my valentine?</h2>
+                <h3>~Paglii</h3>
+            </div>
         </div>
-        
-        <!-- Heart icon -->
-        <div class="heart">❤️</div>
-
-        <!-- Love Button -->
-        <a href="#" class="button">I Love You!</a>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Slideshow functionality
-        let slideIndex = 0;
-        showSlides();
+        $(document).ready(function () {
+            $(".title").click(function () {
+                $(".container").addClass("open");
+            });
 
-        function showSlides() {
-            let slides = document.getElementsByClassName("mySlides");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {
-                slideIndex = 1;
-            }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 4000); // Change image every 4 seconds
-        }
+            $(".close").click(function () {
+                $(".container").removeClass("open");
+            });
+        });
     </script>
 </body>
 </html>
