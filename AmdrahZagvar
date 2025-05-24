@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Амьдралын заавар</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            margin: 2.5cm;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        ul {
+            margin-left: 1.5cm;
+            padding-left: 0;
+            list-style: none;
+        }
+        ul ul {
+            margin-left: 1.5cm;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 0.5em;
+            position: relative;
+            padding-left: 25px;
+        }
+        li > i {
+            position: absolute;
+            left: 0;
+            top: 3px;
+            color: #555;
+            font-size: 14px;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Амьдралын заавар</h1>
+    <p>
+        Энэхүү амьдралын зааврыг би өөртөө зориулж гаргасан бөгөөд хүний жамаар амьдралын гүн гүнзгий утга учрыг ойлгон, ухамсартай, аз жаргалтай амьдрах, үүргээ биелүүлэхэд тань туслах гүн бат суурь тавьж өгөх тул заавал дагаж мөрдөнө.
+    </p>
+    <ul>
+        <li><i class="fas fa-spa"></i>0--1 цаг: бясалгал</li>
+        <li><i class="fas fa-bed"></i>1--5 цаг: унтана. Түүнээс илүү огт унтахгүй (утсандаа цаг тавьж, 4-өөс илүү цаг унтахгүй).</li>
+        <li><i class="fas fa-sun"></i>5--6 цаг: өглөөний бясалгал</li>
+        <li><i class="fas fa-hourglass-half"></i>6--20 цагийн хооронд <strong>мөнх бусыг санан</strong> бясалгал дундаа хийж гүйцэтгэх зүйлс:
+            <ul>
+                <li><i class="fas fa-utensils"></i>Өглөөний хоолоо заавал хийнэ, иднэ.</li>
+                <li><i class="fas fa-broom"></i>Гэрээ заавал цэвэрлэнэ.</li>
+                <li><i class="fas fa-shower"></i>Өөрийгөө цэвэрлэнэ.</li>
+            </ul>
+            (Эдгээр даалгавруудыг биелүүлэхдээ аль болох хурдан хийнэ.)
+        </li>
+        <li><i class="fas fa-ban"></i><strong>19 цагаас хойш хоол идэхгүй.</strong></li>
+        <li><i class="fas fa-book"></i>20--23 цаг: өөрийгөө хөгжүүлэх цаг</li>
+        <li><i class="fas fa-dumbbell"></i>23--00 цаг: дасгал, хөнгөн юм идэж болно.</li>
+    </ul>
+</body>
+</html>
