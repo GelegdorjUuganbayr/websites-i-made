@@ -1,76 +1,102 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Амьдрах загвар</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.5;
-            margin: 2.5cm;
-        }
-        h1 {
-            text-align: center;
-            font-size: 1.8em;
-            font-weight: bold;
-        }
-        ul {
-            margin-left: 1.5cm;
-            padding-left: 0;
-            list-style: none;
-        }
-        ul ul {
-            margin-left: 1.5cm;
-            padding-left: 0;
-        }
-        li {
-            margin-bottom: 0.5em;
-            position: relative;
-            padding-left: 25px;
-        }
-        li > i {
-            position: absolute;
-            left: 0;
-            top: 3px;
-            color: #555;
-            font-size: 14px;
-        }
-        strong {
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Schedule</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.4;
+      margin: 10px 15px;
+      font-size: 14px;
+      background-color: #fff;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    p.motto {
+      font-size: 1.1em;        /* Enlarged */
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #555;
+      font-weight: 600;
+    }
+    h2 {
+      font-size: 1.1em;
+      margin-top: 1.5rem;
+      color: #222;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 4px;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    li {
+      margin-bottom: 0.5em;
+      position: relative;
+      padding-left: 25px;
+    }
+    li > i {
+      position: absolute;
+      left: 0;
+      top: 3px;
+      color: #555;
+      font-size: 12px;
+    }
+    strong {
+      font-weight: bold;
+    }
+
+    /* Container for single-column layout */
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
-    <h1>Амьдрах загвар</h1>
-    <p>
-        "Хэний ч төлөө биш зөвхөн өөрийнхөө төлөө чи л өөрийгөө хайрлахгүй бол өөр хэн ч чамайг хайрлахгүй."
-    </p>
-    <ul>
-        <li><i class="fas fa-spa"></i>0--1 цаг: бясалгал (Үр ашигийг нь хийхгүйгээр хүртэх боломжгүй)(Нирвааны жаргалд умбах уу нисваанисийн зовлонд унах уу ?).</li>
-        <li><i class="fas fa-bed"></i>1--7 цаг: унтана. Ямар ч тохиолдолд өглөө 7 цагаас илүү унтахгүй заавал босох ёстой.</li>
-        <li><i class="fas fa-sun"></i>7--8 цаг: өглөөний бясалгал(Өглөөний амар амгаланг мэдэр)</li>
-        <li><i class="fas fa-hourglass-half"></i>8--20 цагийн хооронд <strong>мөнх бусыг санан</strong> бясалгал дундаа хийж гүйцэтгэх зүйлс:
-            <ul>
-                <li><i class="fas fa-utensils"></i>Өглөөний хоолоо заавал хийнэ, иднэ.</li>
-                <li><i class="fas fa-broom"></i>Гэрээ заавал цэвэрлэнэ.</li>
-                <li><i class="fas fa-shower"></i>Өөрийгөө цэвэрлэнэ.</li>
-            </ul>
-            (Эдгээр гурван даалгавруудыг биелүүлэхдээ аль болох хурдан хийнэ. Мөн биелүүлж байх явцдаа утас үзэхгүй )
-            <p><i class="fas fa-dove" style="color: #4CAF50;"></i> Та эдгээр даалгаврыг маш богино хугацаанд биелүүлэх боломжтой бөгөөд танд маш их чөлөөт цаг гарч байгааг харж болно.</p>
+  <div class="container">
+    <h1>Daily Schedule</h1>
+    <p class="motto">A man without a plan is easily used for another’s</p>
 
-        </li>
-        
-        <li><i class="fas fa-ban"></i><strong>20 цагаас хойш хоол идэхгүй.</strong></li>
-        <li><i class="fas fa-mobile-alt"></i>
-    <strong>Ухаалаг утас хэрэглэхгүй.</strong><br>
-    Ухаалаг утас нь бидний сэтгэл оюуныг асар ихээр ядрааж, сэргэлт авах боломжийг бидэнд өгөхгүй байна.<br>
-    Мөн үүрэг хариуцлагаа биелүүлэх, өөрийгөө хөгжүүлж, өөрийгөө хайрлах цагийг тань үгүй хийснээр амьдралыг тань сүйрүүлж байна.<br>
-    Хүн төрөлхтөн 300,000 жил ухаалаг утасгүй амьдарсан — цаашдаа ч чадна.
-</li>
-        <li><i class="fas fa-dumbbell"></i>20--21 цаг: дасгал.</li>
-        <li><i class="fas fa-book"></i>21--00 цаг: өөрийгөө хөгжүүлэх цаг</li>
+    <h2>Throughout the day</h2>
+    <ul>
+      <li><i class="fas fa-skull"></i><strong>Always remember the impermanence of life</strong></li>
+      <li><i class="fas fa-ban"></i><strong>No eating after 20:00.</strong></li>
+      <li><i class="fas fa-mobile-alt"></i><strong>No smartphone use.</strong></li>
     </ul>
+
+    <h2>Tasks</h2>
+    <ul>
+      <li><i class="fas fa-spa"></i>00:00–01:00: Meditation. (Only by doing it will you get results.)</li>
+      <li><i class="fas fa-bed"></i>01:00–07:00: Sleep. You must wake up by 07:00 at the latest.</li>
+      <li><i class="fas fa-sun"></i>07:00–08:00: Morning meditation. (Morning calm and peace)</li>
+      <li>
+        <i class="fas fa-hourglass-half"></i>08:00–20:00: 
+        <ul>
+          <li><i class="fas fa-utensils"></i>Eat your breakfast.</li>
+          <li><i class="fas fa-broom"></i>Clean your home.</li>
+          <li><i class="fas fa-shower"></i>Take care of personal hygiene.</li>
+        </ul>
+      </li>
+      <li><i class="fas fa-dumbbell"></i>20:00–21:00: Exercise.</li>
+      <li><i class="fas fa-book"></i>21:00–00:00: Personal development time.</li>
+    </ul>
+  </div>
 </body>
 </html>
