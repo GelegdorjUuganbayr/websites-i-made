@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Template — PPT Website</title>
+
+  <style>
+  :root {
+    --bg:#0f172a; --card:#111827ee; --text:#e5e7eb;
+    --muted:#9ca3af; --accent:#38bdf8; --homework:#16213e;
+  }
+  html, body {height:100%;}
+  body {
+    margin:0;
+    font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    display:flex; flex-direction:column;
+    min-height:100vh;
+  }
+  header, footer, nav {background:#0b1223; border-top:1px solid #1f2937;}
+  header {
+    border-bottom:1px solid #1f2937;
+    padding:.8rem 1.2rem;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  header .title {font-weight:700; font-size:clamp(16px,3.4vw,20px);}
+  header .hint {color:var(--muted); font-size:clamp(12px,2.8vw,14px);}
+  main {flex:1; display:grid; place-items:center; padding:1rem;}
+  .slide {
+    width:clamp(340px,90vw,1100px);
+    min-height:clamp(420px,80vh,820px);
+    border-radius:22px;
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+    border:1px solid #1f2937;
+    padding:clamp(18px,3vw,48px);
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+    display:none;
+  }
+  .slide.active{display:block; animation:fade .35s ease;}
+  @keyframes fade{from{opacity:.3;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  h1,h2,h3{margin:0 0 .6em;}
+  h1{font-size:clamp(30px,5.6vw,48px);}
+  h2{font-size:clamp(28px,5vw,46px);}
+  h3{font-size:clamp(22px,4.2vw,30px);}
+  p,li,code{font-size:clamp(20px,3.8vw,26px);line-height:1.6;}
+  ul{margin:.2rem 0 0 1.1rem;}
+  .pill{display:inline-block;background:#0b1223;color:var(--muted);
+    border:1px solid #1f2937;padding:.2rem .6rem;border-radius:999px;}
+  pre{background:#0b1223;border:1px solid #1f2937;border-radius:14px;
+    overflow:auto;padding:1rem;font-size:clamp(18px,3vw,24px);}
+  a.link{display:inline-block;margin-top:.8rem;color:var(--accent);
+    text-decoration:none;font-weight:600;}
+  nav.controls{display:flex;justify-content:space-between;align-items:center;
+    padding:1rem 1.4rem;position:sticky;bottom:0;}
+  button{
+    background:linear-gradient(180deg,#0ea5e9,#0891b2);
+    color:#fff;border:none;padding:.8rem 1.4rem;
+    border-radius:12px;cursor:pointer;font-size:clamp(18px,3vw,24px);
+  }
+  button[disabled]{opacity:.5;cursor:not-allowed;}
+  table{width:100%;border-collapse:collapse;margin-top:1rem;}
+  th,td{border:1px solid #1f2937;padding:.7rem;font-size:clamp(18px,3vw,24px);}
+  th{background:#0b1223;}
+  input{
+    width:100%;background:#0b1223;color:var(--text);
+    border:1px solid #1f2937;border-radius:8px;padding:.8rem;
+    font-size:clamp(18px,3vw,24px);
+  }
+  footer{padding:.7rem 1.2rem;color:var(--muted);font-size:clamp(12px,2.6vw,14px);}
+  </style>
+</head>
+
+<body>
+<!----------replace begin---------->
+<header>
+  <div class="title">Cambridge Computing — Lesson 1.5</div>
+  <div class="hint" id="progress">Slide 1 / 11 · Keys: ← / →</div>
+</header>
+
+<main id="deck">
+  <!-- Slide 1 -->
+  <section class="slide active" data-id="1">
+    <h1>💡 Data in Text-Based Programs</h1>
+    <p>In this 80-minute lesson, we explore how computers handle <b>different data types</b>, use <b>Booleans</b> and <b>constants</b>, and how to <b>cast</b> data from one type to another.</p>
+    <ul>
+      <li>Understand constants and Boolean data.</li>
+      <li>Identify and use data types correctly.</li>
+      <li>Practise casting between data types in Python.</li>
+    </ul>
+    <div id="showLink1"></div>
+  </section>
+
+  <!-- Slide 2 -->
+  <section class="slide" data-id="2">
+    <h2>🧠 Recap: What You Already Know</h2>
+    <ul>
+      <li>A <b>variable</b> is a named space in memory.</li>
+      <li>It can store, change, and output data.</li>
+      <li>Variables are used in both block-based and text-based programming.</li>
+    </ul>
+    <p class="pill">Question: What makes a <b>constant</b> different from a variable?</p>
+    <div id="showLink2"></div>
+  </section>
+
+  <!-- Slide 3 -->
+  <section class="slide" data-id="3">
+    <h2>🔢 Understanding Data Types</h2>
+    <p>Every piece of data has a <b>type</b> — this helps the computer know how to store and process it.</p>
+    <table>
+      <thead><tr><th>Data Type</th><th>Description</th><th>Example Values</th></tr></thead>
+      <tbody>
+        <tr><td>Integer</td><td>Whole numbers</td><td>7, -2, 2025</td></tr>
+        <tr><td>Real / Float</td><td>Numbers with decimals</td><td>3.14, -0.5, 22.75</td></tr>
+        <tr><td>String</td><td>Letters, digits, or symbols in quotes</td><td>"Hello", "123", "True"</td></tr>
+        <tr><td>Character</td><td>Single letter, digit, or symbol</td><td>'A', '7', '!'</td></tr>
+        <tr><td>Boolean</td><td>True / False values</td><td>True, False</td></tr>
+      </tbody>
+    </table>
+    <div id="showLink3"></div>
+  </section>
+
+  <!-- Slide 4 -->
+  <section class="slide" data-id="4">
+    <h2>🧩 Practice: Identify Data Types</h2>
+    <p>Which data type fits each value?</p>
+    <ul>
+      <li><code>18</code></li>
+      <li><code>3.14159</code></li>
+      <li><code>"Good morning"</code></li>
+      <li><code>'G'</code></li>
+      <li><code>False</code></li>
+    </ul>
+    <p class="pill">Tip: Numbers without quotes → number type. Anything in quotes → string.</p>
+    <div id="showLink4"></div>
+  </section>
+
+  <!-- Slide 5 -->
+  <section class="slide" data-id="5">
+    <h2>⚖️ Boolean Data Type</h2>
+    <p>Booleans store <b>only two values</b>: <code>True</code> or <code>False</code>.</p>
+    <pre><code>pythonBoolean1 = True
+pythonBoolean2 = False</code></pre>
+    <ul>
+      <li>Used in decision-making (if-statements).</li>
+      <li>Can be stored as <b>flags</b> — True means something happened.</li>
+      <li>1 often represents True, 0 represents False.</li>
+    </ul>
+    <div id="showLink5"></div>
+  </section>
+
+  <!-- Slide 6 -->
+  <section class="slide" data-id="6">
+    <h2>🏳️ Using Boolean Flags</h2>
+    <p>A <b>flag</b> shows whether a condition has happened or not.</p>
+    <pre><code>age = int(input("Enter your age: "))
+if age >= 18:
+    adult = True
+else:
+    adult = False
+print("Adult:", adult)</code></pre>
+    <p>The variable <b>adult</b> is a flag — it becomes True if age ≥ 18.</p>
+    <div id="showLink6"></div>
+  </section>
+
+  <!-- Slide 7 -->
+  <section class="slide" data-id="7">
+    <h2>🔒 Constants</h2>
+    <ul>
+      <li>A <b>constant</b> stores a value that never changes while the program runs.</li>
+      <li>Use constants to make programs easier to understand and maintain.</li>
+    </ul>
+    <pre><code># Python example
+PI = 3.14
+radius = 5
+area = 2 * PI * radius
+print("Circumference:", area)</code></pre>
+    <p class="pill">Use CAPITAL letters for constants in Python.</p>
+    <div id="showLink7"></div>
+  </section>
+
+  <!-- Slide 8 -->
+  <section class="slide" data-id="8">
+    <h2>🧮 Casting Between Data Types</h2>
+    <p><b>Casting</b> means converting one data type to another.</p>
+    <table>
+      <thead><tr><th>Command</th><th>Purpose</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>int()</code></td><td>Convert to integer</td><td><code>int("5") → 5</code></td></tr>
+        <tr><td><code>float()</code></td><td>Convert to real number</td><td><code>float("2.75") → 2.75</code></td></tr>
+        <tr><td><code>str()</code></td><td>Convert to string</td><td><code>str(10) → "10"</code></td></tr>
+        <tr><td><code>bool()</code></td><td>Convert to Boolean</td><td><code>bool(0) → False</code>, <code>bool("hi") → True</code></td></tr>
+      </tbody>
+    </table>
+    <div id="showLink8"></div>
+  </section>
+
+  <!-- Slide 9 -->
+  <section class="slide" data-id="9">
+    <h2>💻 Casting Examples in Python</h2>
+    <pre><code>x = "42"
+print(int(x) + 8)     # converts string → integer
+
+num = 0
+print(bool(num))      # outputs False
+
+text = "False"
+print(bool(text))     # outputs True (non-empty string)</code></pre>
+    <p>Notice that even <code>"False"</code> (a string) becomes True because it’s not empty!</p>
+    <div id="showLink9"></div>
+  </section>
+
+  <!-- Slide 10 -->
+  <section class="slide" data-id="10">
+    <h2>🏠 Homework Task</h2>
+    <ul>
+      <li>Write a Python program that asks the user for three different inputs:
+        <ul>
+          <li>an integer</li>
+          <li>a real number</li>
+          <li>a string</li>
+        </ul>
+      </li>
+      <li>Display their data types using <code>type()</code>.</li>
+      <li>Then cast each one into a different data type and print the new result.</li>
+    </ul>
+    <p class="pill">💡 Challenge: Use <code>bool()</code> casting in your program and explain the result.</p>
+    <div id="showLink10"></div>
+  </section>
+
+  <!-- Slide 11 -->
+  <section class="slide" data-id="resources">
+    <h2>📚 Slide Resources</h2>
+    <p class="pill">Add source file links and online tools here.</p>
+    <table>
+      <thead><tr><th>Slide #</th><th>Hyperlink</th></tr></thead>
+      <tbody id="resourcesTable"></tbody>
+    </table>
+  </section>
+</main>
+
+<!----------replace end---------->
+<nav class="controls">
+  <button id="prev">← Prev</button>
+  <div class="hint" id="status">Use ← / → keys</div>
+  <button id="next">Next →</button>
+</nav>
+
+<footer>
+  Tip: Press ← / → to navigate · Your links are saved in this browser.
+</footer>
+<script>
+(function () {
+  const deckID = "lesson_template"; // change per lesson
+
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const progress = document.getElementById("progress");
+  const status = document.getElementById("status");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const resourcesTable = document.getElementById("resourcesTable");
+  let i = 0;
+
+  function updateProgress() {
+    progress.textContent = `Slide ${i + 1} / ${slides.length}`;
+    status.textContent = `Slide ${i + 1} / ${slides.length} · Keys: ← / →`;
+    prevBtn.disabled = (i === 0);
+    nextBtn.disabled = (i === slides.length - 1);
+    window.scrollTo(0, 0);
+  }
+
+  function show(idx) {
+    slides[i].classList.remove("active");
+    i = Math.max(0, Math.min(slides.length - 1, idx));
+    slides[i].classList.add("active");
+    updateProgress();
+  }
+
+  prevBtn.onclick = () => show(i - 1);
+  nextBtn.onclick = () => show(i + 1);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") show(i - 1);
+    else if (e.key === "ArrowRight") show(i + 1);
+  });
+
+  const realSlideCount = slides.length - 1;
+  let html = "";
+  for (let n = 1; n <= realSlideCount; n++) {
+    const saved = localStorage.getItem(`${deckID}_slideLink${n}`) || "";
+    html += `<tr><td>Slide ${n}</td>
+      <td><input id="link${n}" placeholder="https://..." value="${saved}"></td></tr>`;
+  }
+  if (resourcesTable) resourcesTable.innerHTML = html;
+
+  for (let n = 1; n <= realSlideCount; n++) {
+    const showDiv = document.getElementById(`showLink${n}`);
+    const inputEl = document.getElementById(`link${n}`);
+    const saved = localStorage.getItem(`${deckID}_slideLink${n}`);
+
+    if (saved && showDiv)
+      showDiv.innerHTML = `<a class="link" href="${saved}" target="_blank">🔗 Resource</a>`;
+
+    if (inputEl) {
+      inputEl.addEventListener("change", () => {
+        const val = inputEl.value.trim();
+        if (val) {
+          localStorage.setItem(`${deckID}_slideLink${n}`, val);
+          if (showDiv)
+            showDiv.innerHTML = `<a class="link" href="${val}" target="_blank">🔗 Resource</a>`;
+        } else {
+          localStorage.removeItem(`${deckID}_slideLink${n}`);
+          if (showDiv) showDiv.innerHTML = "";
+        }
+      });
+    }
+  }
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
