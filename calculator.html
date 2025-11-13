@@ -1,65 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buggy Calculator</title>
 
 <style>
   body {
     font-family: system-ui, sans-serif;
-    background: #f5f7fa;
+    background: #f2f5f9;
     display: flex;
     justify-content: center;
     padding: 30px;
   }
-
   .calc {
     width: 100%;
-    max-width: 340px;
-    background: #fff;
+    max-width: 360px;
+    background: white;
     padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 0 20px #d0d4dc;
+    border-radius: 18px;
+    box-shadow: 0 0 20px #cfd6e0;
   }
-
   #screen {
     width: 100%;
-    height: 60px;
+    height: 65px;
     font-size: 32px;
     text-align: right;
     padding: 10px;
     border: none;
     background: #eef1f5;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    margin-bottom: 18px;
   }
-
-  .btn-grid {
+  .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
   }
-
   button {
     padding: 18px;
     font-size: 20px;
-    border-radius: 12px;
     border: none;
-    background: #e3e7ee;
+    border-radius: 12px;
+    background: #e4e7ed;
   }
-
   button:active {
-    background: #c8ccd4;
+    background: #cfd2d8;
   }
 </style>
 </head>
 
 <body>
-<div class="calc">
-  <input id="screen" disabled />
 
-  <div class="btn-grid">
+<div class="calc">
+  <input id="screen" disabled>
+
+  <div class="grid">
     <button onclick="press('7')">7</button>
     <button onclick="press('8')">8</button>
     <button onclick="press('9')">9</button>
@@ -76,7 +72,7 @@
     <button onclick="press('-')">−</button>
 
     <button onclick="press('0')">0</button>
-    <button onclick="clearScreen()">C</button>
+    <button onclick="clearScr()">C</button>
     <button onclick="equals()">=</button>
     <button onclick="press('+')">+</button>
   </div>
@@ -86,55 +82,50 @@
 let screen = document.getElementById("screen");
 let expr = "";
 
-// --------------------------
-// Button press
-// --------------------------
 function press(x) {
   expr += x;
   screen.value = expr;
 }
 
-// --------------------------
-// Clear
-// --------------------------
-function clearScreen() {
+function clearScr() {
   expr = "";
   screen.value = "";
 }
 
-// --------------------------
-// EQUALS  (BUGS INCLUDED)
-// --------------------------
 function equals() {
 
-  // ❗ Нуугдмал алдаа #1: 0-д хуваах үед "error" биш хоосон буцаадаг
-  if (expr.includes("/0")) {
-    screen.value = "";
-    expr = "";
-    return;
-  }
-
-  // ❗ Ил харагдах алдаа #1:
-  // 5 + 5 → 10 гарах ёстой, харин зориуд 11 болгож байна
+  // ⚠️ EASY BUG 1 — 5+5 = 11
   if (expr === "5+5") {
-    screen.value = 11; 
+    screen.value = 11;
     expr = "";
     return;
   }
 
-  // ❗ Ил харагдах алдаа #2:
-  // 9 - 3 → 6 гарах ёстой, харин зориуд 7 болгож байна
+  // ⚠️ EASY BUG 2 — 9-3 = 7
   if (expr === "9-3") {
     screen.value = 7;
     expr = "";
     return;
   }
 
-  // ❗ Нуугдмал алдаа #2:
-  // 3 оронтой тоогоор үйлдэл хийх үед 1-ээр буруу нэмдэг
-  if (expr.length >= 5) {
+  // ⚠️ COMPLEX BUG 1 — Two-digit addition +1 error
+  // Applies when first number is 2 digits and second is 1 digit
+  let match1 = expr.match(/^(\d{2})\+(\d)$/);
+  if (match1) {
+    let a = parseInt(match1[1]);
+    let b = parseInt(match1[2]);
+    screen.value = a + b + 1; // incorrect shift
+    expr = "";
+    return;
+  }
+
+  // ⚠️ COMPLEX BUG 2 — Division removes decimals (floors result)
+  if (expr.includes("/")) {
     try {
-      let result = eval(expr) + 1;
+      let parts = expr.split("/");
+      let a = Number(parts[0]);
+      let b = Number(parts[1]);
+      let result = Math.floor(a / b); // wrong: should NOT floor
       screen.value = result;
       expr = "";
       return;
@@ -145,13 +136,18 @@ function equals() {
     }
   }
 
-  // Бусад үед зөв ажиллана
+  // ⚠️ COMPLEX BUG 3 — Large results (>100) are always off by -5
   try {
-    let result = eval(expr);
-    screen.value = result;
+    let correct = eval(expr);
+    if (correct > 100) {
+      screen.value = correct - 5;
+    } else {
+      screen.value = correct;
+    }
   } catch {
     screen.value = "Err";
   }
+
   expr = "";
 }
 </script>
