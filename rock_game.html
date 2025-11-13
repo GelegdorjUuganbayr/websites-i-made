@@ -49,14 +49,14 @@
     font-weight: bold;
     margin: 20px 0;
     color: #143d77;
-    min-height: 70px;
+    min-height: 80px;
   }
 
   .choices {
     display: flex;
     justify-content: space-around;
     margin-top: 25px;
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .result {
@@ -72,7 +72,7 @@
 <h1>Rock • Paper • Scissors</h1>
 
 <div class="frame">
-  <h2>Choose one:</h2>
+  <h2>Сонго:</h2>
 
   <div class="btns">
     <button onclick="startGame('rock')">✊</button>
@@ -97,13 +97,15 @@
     document.getElementById("playerChoice").innerHTML = "🤔";
     document.getElementById("computerChoice").innerHTML = "💻";
 
-    let count = 3;
-    document.getElementById("countdown").innerHTML = count;
+    let sequence = ["3", "2", "1", "НЭГ!"];
+    let index = 0;
+
+    document.getElementById("countdown").innerHTML = sequence[index];
 
     let timer = setInterval(() => {
-      count--;
-      if (count > 0) {
-        document.getElementById("countdown").innerHTML = count;
+      index++;
+      if (index < sequence.length) {
+        document.getElementById("countdown").innerHTML = sequence[index];
       } else {
         clearInterval(timer);
         document.getElementById("countdown").innerHTML = "GO!";
@@ -133,13 +135,15 @@
 
     if (player === comp) {
       result = "Тэнцлээ!";
-    } else if (
-      (player === "rock" && comp === "scissors") ||
-      (player === "paper" && comp === "rock") ||
+    } 
+    else if (
+      (player === "rock"     && comp === "scissors") ||
+      (player === "paper"    && comp === "rock") ||
       (player === "scissors" && comp === "paper")
     ) {
       result = "Та яллаа! 🎉";
-    } else {
+    } 
+    else {
       result = "Компьютер яллаа! 💻";
     }
 
@@ -147,7 +151,7 @@
 
     setTimeout(() => {
       document.getElementById("countdown").innerHTML = "";
-    }, 500);
+    }, 700);
   }
 </script>
 
