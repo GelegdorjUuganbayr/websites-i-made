@@ -1,113 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Buggy Calculator</title>
+
 <style>
   body {
-    font-family: Arial;
+    font-family: system-ui, sans-serif;
+    background: #f5f7fa;
     display: flex;
     justify-content: center;
-    padding-top: 30px;
-    background: #f3f4f6;
+    padding: 30px;
   }
+
   .calc {
-    width: 280px;
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px #ccc;
+    width: 100%;
+    max-width: 340px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px #d0d4dc;
   }
-  #display {
+
+  #screen {
     width: 100%;
     height: 60px;
-    font-size: 28px;
-    margin-bottom: 10px;
-    padding: 5px;
+    font-size: 32px;
     text-align: right;
-    border: 1px solid #ddd;
+    padding: 10px;
+    border: none;
+    background: #eef1f5;
+    border-radius: 10px;
+    margin-bottom: 20px;
   }
-  .btns {
+
+  .btn-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    gap: 12px;
   }
+
   button {
-    padding: 15px;
-    font-size: 18px;
-    background: #e5e7eb;
-    border-radius: 8px;
+    padding: 18px;
+    font-size: 20px;
+    border-radius: 12px;
     border: none;
+    background: #e3e7ee;
+  }
+
+  button:active {
+    background: #c8ccd4;
   }
 </style>
 </head>
 
 <body>
 <div class="calc">
-  <input id="display" disabled>
-  <div class="btns">
+  <input id="screen" disabled />
+
+  <div class="btn-grid">
     <button onclick="press('7')">7</button>
     <button onclick="press('8')">8</button>
     <button onclick="press('9')">9</button>
-    <button onclick="setOp('/')">÷</button>
+    <button onclick="press('/')">÷</button>
 
     <button onclick="press('4')">4</button>
     <button onclick="press('5')">5</button>
     <button onclick="press('6')">6</button>
-    <button onclick="setOp('*')">×</button>
+    <button onclick="press('*')">×</button>
 
     <button onclick="press('1')">1</button>
     <button onclick="press('2')">2</button>
     <button onclick="press('3')">3</button>
-    <button onclick="setOp('-')">−</button>
+    <button onclick="press('-')">−</button>
 
     <button onclick="press('0')">0</button>
-    <button onclick="clearDisplay()">C</button>
-    <button onclick="setOp('+')">+</button>
-    <button onclick="calculate()">=</button>
+    <button onclick="clearScreen()">C</button>
+    <button onclick="equals()">=</button>
+    <button onclick="press('+')">+</button>
   </div>
 </div>
 
 <script>
-let first = "";
-let operator = "";
+let screen = document.getElementById("screen");
+let expr = "";
 
-function press(n) {
-  document.getElementById("display").value += n;
+// --------------------------
+// Button press
+// --------------------------
+function press(x) {
+  expr += x;
+  screen.value = expr;
 }
 
-function setOp(op) {
-  first = document.getElementById("display").value;
-  operator = op;
-  document.getElementById("display").value = "";
+// --------------------------
+// Clear
+// --------------------------
+function clearScreen() {
+  expr = "";
+  screen.value = "";
 }
 
-// ❗ BUGGY CALCULATION HERE
-function calculate() {
-  let second = document.getElementById("display").value;
-  let result = 0;
+// --------------------------
+// EQUALS  (BUGS INCLUDED)
+// --------------------------
+function equals() {
 
-  // Bug #1: minus is actually addition
-  if (operator === "-") {
-    result = Number(first) + Number(second); 
-  }
-  // Bug #2: multiply wrong on purpose
-  else if (operator === "*") {
-    result = Number(first) * Number(second) + 5; 
-  }
-  else if (operator === "+") {
-    result = Number(first) + Number(second);
-  }
-  else if (operator === "/") {
-    result = Number(first) / Number(second);
+  // ❗ Нуугдмал алдаа #1: 0-д хуваах үед "error" биш хоосон буцаадаг
+  if (expr.includes("/0")) {
+    screen.value = "";
+    expr = "";
+    return;
   }
 
-  document.getElementById("display").value = result;
-}
+  // ❗ Ил харагдах алдаа #1:
+  // 5 + 5 → 10 гарах ёстой, харин зориуд 11 болгож байна
+  if (expr === "5+5") {
+    screen.value = 11; 
+    expr = "";
+    return;
+  }
 
-function clearDisplay() {
-  // ❗ Bug #3: does NOT reset first/operator
-  document.getElementById("display").value = "";
+  // ❗ Ил харагдах алдаа #2:
+  // 9 - 3 → 6 гарах ёстой, харин зориуд 7 болгож байна
+  if (expr === "9-3") {
+    screen.value = 7;
+    expr = "";
+    return;
+  }
+
+  // ❗ Нуугдмал алдаа #2:
+  // 3 оронтой тоогоор үйлдэл хийх үед 1-ээр буруу нэмдэг
+  if (expr.length >= 5) {
+    try {
+      let result = eval(expr) + 1;
+      screen.value = result;
+      expr = "";
+      return;
+    } catch {
+      screen.value = "Err";
+      expr = "";
+      return;
+    }
+  }
+
+  // Бусад үед зөв ажиллана
+  try {
+    let result = eval(expr);
+    screen.value = result;
+  } catch {
+    screen.value = "Err";
+  }
+  expr = "";
 }
 </script>
 
