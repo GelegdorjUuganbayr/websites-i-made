@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Buggy Calculator</title>
+<style>
+  body {
+    font-family: Arial;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    background: #f3f4f6;
+  }
+  .calc {
+    width: 280px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #ccc;
+  }
+  #display {
+    width: 100%;
+    height: 60px;
+    font-size: 28px;
+    margin-bottom: 10px;
+    padding: 5px;
+    text-align: right;
+    border: 1px solid #ddd;
+  }
+  .btns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  button {
+    padding: 15px;
+    font-size: 18px;
+    background: #e5e7eb;
+    border-radius: 8px;
+    border: none;
+  }
+</style>
+</head>
+
+<body>
+<div class="calc">
+  <input id="display" disabled>
+  <div class="btns">
+    <button onclick="press('7')">7</button>
+    <button onclick="press('8')">8</button>
+    <button onclick="press('9')">9</button>
+    <button onclick="setOp('/')">÷</button>
+
+    <button onclick="press('4')">4</button>
+    <button onclick="press('5')">5</button>
+    <button onclick="press('6')">6</button>
+    <button onclick="setOp('*')">×</button>
+
+    <button onclick="press('1')">1</button>
+    <button onclick="press('2')">2</button>
+    <button onclick="press('3')">3</button>
+    <button onclick="setOp('-')">−</button>
+
+    <button onclick="press('0')">0</button>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="setOp('+')">+</button>
+    <button onclick="calculate()">=</button>
+  </div>
+</div>
+
+<script>
+let first = "";
+let operator = "";
+
+function press(n) {
+  document.getElementById("display").value += n;
+}
+
+function setOp(op) {
+  first = document.getElementById("display").value;
+  operator = op;
+  document.getElementById("display").value = "";
+}
+
+// ❗ BUGGY CALCULATION HERE
+function calculate() {
+  let second = document.getElementById("display").value;
+  let result = 0;
+
+  // Bug #1: minus is actually addition
+  if (operator === "-") {
+    result = Number(first) + Number(second); 
+  }
+  // Bug #2: multiply wrong on purpose
+  else if (operator === "*") {
+    result = Number(first) * Number(second) + 5; 
+  }
+  else if (operator === "+") {
+    result = Number(first) + Number(second);
+  }
+  else if (operator === "/") {
+    result = Number(first) / Number(second);
+  }
+
+  document.getElementById("display").value = result;
+}
+
+function clearDisplay() {
+  // ❗ Bug #3: does NOT reset first/operator
+  document.getElementById("display").value = "";
+}
+</script>
+
+</body>
+</html>
