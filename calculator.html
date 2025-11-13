@@ -2,154 +2,152 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buggy Calculator</title>
-
+<title>Buggy Calculator – Multi-Operator Error</title>
 <style>
   body {
-    font-family: system-ui, sans-serif;
-    background: #f2f5f9;
-    display: flex;
-    justify-content: center;
-    padding: 30px;
+    background:#eef1f4;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
   }
   .calc {
-    width: 100%;
-    max-width: 360px;
-    background: white;
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0 0 20px #cfd6e0;
+    width:280px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
   }
-  #screen {
-    width: 100%;
-    height: 65px;
-    font-size: 32px;
-    text-align: right;
-    padding: 10px;
-    border: none;
-    background: #eef1f5;
-    border-radius: 12px;
-    margin-bottom: 18px;
+  input {
+    width:100%;
+    height:55px;
+    font-size:28px;
+    text-align:right;
+    margin-bottom:15px;
+    padding-right:10px;
   }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+  .buttons {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
   }
   button {
-    padding: 18px;
-    font-size: 20px;
-    border: none;
-    border-radius: 12px;
-    background: #e4e7ed;
+    height:55px;
+    font-size:20px;
+    border:none;
+    border-radius:8px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
   }
-  button:active {
-    background: #cfd2d8;
-  }
+  button.op { background:#2563eb; }
+  button.clr { background:#dc2626; }
 </style>
 </head>
-
 <body>
 
 <div class="calc">
-  <input id="screen" disabled>
+  <input id="display" disabled>
 
-  <div class="grid">
+  <div class="buttons">
     <button onclick="press('7')">7</button>
     <button onclick="press('8')">8</button>
     <button onclick="press('9')">9</button>
-    <button onclick="press('/')">÷</button>
+    <button class="op" onclick="press('/')">÷</button>
 
     <button onclick="press('4')">4</button>
     <button onclick="press('5')">5</button>
     <button onclick="press('6')">6</button>
-    <button onclick="press('*')">×</button>
+    <button class="op" onclick="press('*')">×</button>
 
     <button onclick="press('1')">1</button>
     <button onclick="press('2')">2</button>
     <button onclick="press('3')">3</button>
-    <button onclick="press('-')">−</button>
+    <button class="op" onclick="press('-')">-</button>
 
     <button onclick="press('0')">0</button>
-    <button onclick="clearScr()">C</button>
-    <button onclick="equals()">=</button>
-    <button onclick="press('+')">+</button>
+    <button onclick="press('.')">.</button>
+    <button class="clr" onclick="clearDisplay()">C</button>
+    <button class="op" onclick="press('+')">+</button>
+
+    <button style="grid-column: span 4; background:#059669;" onclick="calculate()">=</button>
   </div>
 </div>
 
 <script>
-let screen = document.getElementById("screen");
-let expr = "";
+  function press(value) {
+    let d = document.getElementById("display");
 
-function press(x) {
-  expr += x;
-  screen.value = expr;
-}
+    // ✔ 8 оронтой тоонд хязгаар (оператор орж болно)
+    let onlyDigits = d.value.replace(/[^0-9]/g, "");
+    if (onlyDigits.length >= 8 && !isNaN(value)) return;
 
-function clearScr() {
-  expr = "";
-  screen.value = "";
-}
-
-function equals() {
-
-  // ⚠️ EASY BUG 1 — 5+5 = 11
-  if (expr === "5+5") {
-    screen.value = 11;
-    expr = "";
-    return;
+    d.value += value;
   }
 
-  // ⚠️ EASY BUG 2 — 9-3 = 7
-  if (expr === "9-3") {
-    screen.value = 7;
-    expr = "";
-    return;
+  function clearDisplay() {
+    document.getElementById("display").value = "";
   }
 
-  // ⚠️ COMPLEX BUG 1 — Two-digit addition +1 error
-  // Applies when first number is 2 digits and second is 1 digit
-  let match1 = expr.match(/^(\d{2})\+(\d)$/);
-  if (match1) {
-    let a = parseInt(match1[1]);
-    let b = parseInt(match1[2]);
-    screen.value = a + b + 1; // incorrect shift
-    expr = "";
-    return;
-  }
+  function calculate() {
+    let d = document.getElementById("display");
+    let expr = d.value;
 
-  // ⚠️ COMPLEX BUG 2 — Division removes decimals (floors result)
-  if (expr.includes("/")) {
+    // 🐛 BUG 1 — EXACT input: 99999999 + 1 → 0
+    if (expr === "99999999+1") {
+      d.value = 0;
+      return;
+    }
+
+    // 🐛 BUG 2 — divide by zero → random number
+    if (expr.includes("/0")) {
+      d.value = Math.floor(Math.random() * 900 + 100); // 100–999
+      return;
+    }
+
+    // 🐛 BUG 3 — ANY operator sequence → always use FIRST operator
+    // Example: 3++++*/-+6 → first operator = "+"
+    const pattern = /^(\d+)([\+\-\*\/]+)(\d+)$/;
+
+    if (pattern.test(expr)) {
+      let p = expr.match(pattern);
+      let n1 = Number(p[1]);
+      let operators = p[2];
+      let firstOp = operators[0];   // ✔ ALWAYS use first operator
+      let n2 = Number(p[3]);
+
+      let wrong;
+      if (firstOp === '+') wrong = n1 + n2;
+      if (firstOp === '-') wrong = n1 - n2;
+      if (firstOp === '*') wrong = n1 * n2;
+      if (firstOp === '/') wrong = n1 / n2;
+
+      expr = wrong;
+    }
+
+    let result;
     try {
-      let parts = expr.split("/");
-      let a = Number(parts[0]);
-      let b = Number(parts[1]);
-      let result = Math.floor(a / b); // wrong: should NOT floor
-      screen.value = result;
-      expr = "";
-      return;
+      result = eval(expr);
     } catch {
-      screen.value = "Err";
-      expr = "";
+      d.value = "Error";
       return;
     }
-  }
 
-  // ⚠️ COMPLEX BUG 3 — Large results (>100) are always off by -5
-  try {
-    let correct = eval(expr);
-    if (correct > 100) {
-      screen.value = correct - 5;
-    } else {
-      screen.value = correct;
+    // 🐛 BUG 4 — result = 100 → 101
+    if (result === 100) {
+      d.value = 101;
+      return;
     }
-  } catch {
-    screen.value = "Err";
-  }
 
-  expr = "";
-}
+    // 🐛 BUG 5 — negative → positive
+    if (result < 0) {
+      d.value = Math.abs(result);
+      return;
+    }
+
+    d.value = result;
+  }
 </script>
 
 </body>
