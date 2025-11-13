@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rock Paper Scissors — Countdown Version</title>
+<title>Rock Paper Scissors — Prompt Version</title>
 
 <style>
   body {
@@ -20,28 +20,11 @@
 
   .frame {
     background: white;
-    width: 340px;
+    width: 360px;
     margin: 0 auto;
     padding: 20px;
     border-radius: 18px;
     box-shadow: 0 0 18px rgba(0,0,0,0.2);
-  }
-
-  .btns button {
-    width: 90px;
-    height: 90px;
-    border-radius: 16px;
-    border: none;
-    background: #e1eaff;
-    margin: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  .btns button:hover {
-    background: #c4d5ff;
-    transform: scale(1.07);
   }
 
   #countdown {
@@ -64,6 +47,15 @@
     font-weight: bold;
     margin-top: 25px;
   }
+
+  button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #dce7ff;
+    cursor: pointer;
+    font-size: 18px;
+  }
 </style>
 </head>
 
@@ -72,13 +64,9 @@
 <h1>Rock • Paper • Scissors</h1>
 
 <div class="frame">
-  <h2>Сонго:</h2>
+  <h2>Тоглоом эхлүүлэх:</h2>
 
-  <div class="btns">
-    <button onclick="startGame('rock')">✊</button>
-    <button onclick="startGame('paper')">✋</button>
-    <button onclick="startGame('scissors')">✌</button>
-  </div>
+  <button onclick="askInput()">Тоглох</button>
 
   <div id="countdown"></div>
 
@@ -88,36 +76,46 @@
   </div>
 
   <div id="result" class="result"></div>
-
 </div>
 
 <script>
 let gamesPlayed = 0;
 let afterInvalidForceRock = false;
 
+function askInput() {
+  let user = prompt("rock, paper, scissors гэж бичнэ үү:");
+
+  if (user === null || user.trim() === "") {
+    user = "";
+  }
+
+  startGame(user.trim());
+}
+
 function startGame(input) {
   gamesPlayed++;
 
   let playerChoice = input;
 
-  // ❌ Hidden boundary bug: uppercase variations behave strangely
+  // ❌ Hidden boundary bug: uppercase allowed but behaves wrong
   if (playerChoice === "ROCK") {
     playerChoice = "rock"; 
   }
 
-  // ❌ Hidden invalid bug: "rockk" still accepted
+  // ❌ Hidden invalid: "rockk" still accepted
   if (playerChoice === "rockk") {
-    playerChoice = "rock"; 
+    playerChoice = "rock";
   }
 
-  // ❌ Hidden invalid behaviour: "r" → next turn computer always ROCK
-  if (playerChoice === "r") {
+  // ❌ Hidden invalid: single letters → next game forced ROCK
+  if (playerChoice.length === 1) {
     afterInvalidForceRock = true;
     showInvalidCountdown();
     return;
   }
 
-  if (playerChoice === "p" || playerChoice === "s") {
+  // ❌ Hidden invalid: bananas → next game forced ROCK
+  if (playerChoice === "bananas") {
     afterInvalidForceRock = true;
     showInvalidCountdown();
     return;
@@ -126,9 +124,11 @@ function startGame(input) {
   runCountdown(playerChoice);
 }
 
+
 function showInvalidCountdown() {
   let seq = ["3","2","1","НЭГ!"];
   let idx = 0;
+
   document.getElementById("countdown").innerHTML = seq[idx];
 
   let t = setInterval(()=>{
@@ -144,6 +144,7 @@ function showInvalidCountdown() {
     }
   },800);
 }
+
 
 function runCountdown(playerChoice){
   let seq = ["3","2","1","НЭГ!"];
@@ -169,7 +170,7 @@ function revealChoices(playerChoice) {
   let choices = ["rock","paper","scissors"];
   let computerChoice;
 
-  // ❌ Hidden bug: after invalid input → computer always rock
+  // ❌ Hidden bug: after invalid input → always rock
   if (afterInvalidForceRock){
     computerChoice = "rock";
     afterInvalidForceRock = false;
@@ -177,7 +178,7 @@ function revealChoices(playerChoice) {
     computerChoice = choices[Math.floor(Math.random()*3)];
   }
 
-  document.getElementById("playerChoice").innerHTML = icon[playerChoice];
+  document.getElementById("playerChoice").innerHTML = icon[playerChoice] || "❓";
   document.getElementById("computerChoice").innerHTML = icon[computerChoice];
 
   showResult(playerChoice, computerChoice);
@@ -186,17 +187,18 @@ function revealChoices(playerChoice) {
 function showResult(player, comp) {
   let result = "";
 
-  // ❌ Hidden logic bug: paper vs scissors = draw
+  // ❌ Hidden logic bug: paper vs scissors → draw
   if (player==="paper" && comp==="scissors"){
     result = "Тэнцлээ!";
   }
+  // ❌ Hidden repeated testing bug: game 7–10 → computer always wins
   else if (gamesPlayed >=7 && gamesPlayed <=10){
-    // ❌ Hidden forced win bug for computer
     result = "Компьютер яллаа!";
   }
   else if (player === comp) {
     result = "Тэнцлээ!";
   }
+  // normal winning rules
   else if (
     (player==="rock" && comp==="scissors") ||
     (player==="paper" && comp==="rock") ||
