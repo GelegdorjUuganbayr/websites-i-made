@@ -92,67 +92,125 @@
 </div>
 
 <script>
-  function startGame(playerChoice) {
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("playerChoice").innerHTML = "🤔";
-    document.getElementById("computerChoice").innerHTML = "💻";
+let gamesPlayed = 0;
+let afterInvalidForceRock = false;
 
-    let sequence = ["3", "2", "1", "НЭГ!"];
-    let index = 0;
+function startGame(input) {
+  gamesPlayed++;
 
-    document.getElementById("countdown").innerHTML = sequence[index];
+  let playerChoice = input;
 
-    let timer = setInterval(() => {
-      index++;
-      if (index < sequence.length) {
-        document.getElementById("countdown").innerHTML = sequence[index];
-      } else {
-        clearInterval(timer);
-        document.getElementById("countdown").innerHTML = "GO!";
-        revealChoices(playerChoice);
-      }
-    }, 800);
+  // ❌ Hidden boundary bug: uppercase variations behave strangely
+  if (playerChoice === "ROCK") {
+    playerChoice = "rock"; 
   }
 
-  function revealChoices(playerChoice) {
-    const icons = {
-      rock: "✊",
-      paper: "✋",
-      scissors: "✌"
-    };
-
-    const choices = ["rock", "paper", "scissors"];
-    const computerChoice = choices[Math.floor(Math.random() * 3)];
-
-    document.getElementById("playerChoice").innerHTML = icons[playerChoice];
-    document.getElementById("computerChoice").innerHTML = icons[computerChoice];
-
-    showResult(playerChoice, computerChoice);
+  // ❌ Hidden invalid bug: "rockk" still accepted
+  if (playerChoice === "rockk") {
+    playerChoice = "rock"; 
   }
 
-  function showResult(player, comp) {
-    let result = "";
+  // ❌ Hidden invalid behaviour: "r" → next turn computer always ROCK
+  if (playerChoice === "r") {
+    afterInvalidForceRock = true;
+    showInvalidCountdown();
+    return;
+  }
 
-    if (player === comp) {
-      result = "Тэнцлээ!";
-    } 
-    else if (
-      (player === "rock"     && comp === "scissors") ||
-      (player === "paper"    && comp === "rock") ||
-      (player === "scissors" && comp === "paper")
-    ) {
-      result = "Та яллаа! 🎉";
-    } 
-    else {
-      result = "Компьютер яллаа! 💻";
+  if (playerChoice === "p" || playerChoice === "s") {
+    afterInvalidForceRock = true;
+    showInvalidCountdown();
+    return;
+  }
+
+  runCountdown(playerChoice);
+}
+
+function showInvalidCountdown() {
+  let seq = ["3","2","1","НЭГ!"];
+  let idx = 0;
+  document.getElementById("countdown").innerHTML = seq[idx];
+
+  let t = setInterval(()=>{
+    idx++;
+    if (idx < seq.length){
+      document.getElementById("countdown").innerHTML = seq[idx];
+    } else {
+      clearInterval(t);
+      document.getElementById("countdown").innerHTML = "GO!";
+      document.getElementById("playerChoice").innerHTML = "🤔";
+      document.getElementById("computerChoice").innerHTML = "💻";
+      document.getElementById("result").innerHTML = "Дахин оролдоно уу.";
     }
+  },800);
+}
 
-    document.getElementById("result").innerHTML = result;
+function runCountdown(playerChoice){
+  let seq = ["3","2","1","НЭГ!"];
+  let idx = 0;
 
-    setTimeout(() => {
-      document.getElementById("countdown").innerHTML = "";
-    }, 700);
+  document.getElementById("countdown").innerHTML = seq[idx];
+
+  let timer = setInterval(() => {
+    idx++;
+    if (idx < seq.length) {
+      document.getElementById("countdown").innerHTML = seq[idx];
+    } else {
+      clearInterval(timer);
+      document.getElementById("countdown").innerHTML = "GO!";
+      revealChoices(playerChoice);
+    }
+  }, 800);
+}
+
+function revealChoices(playerChoice) {
+  const icon = { rock:"✊", paper:"✋", scissors:"✌" };
+
+  let choices = ["rock","paper","scissors"];
+  let computerChoice;
+
+  // ❌ Hidden bug: after invalid input → computer always rock
+  if (afterInvalidForceRock){
+    computerChoice = "rock";
+    afterInvalidForceRock = false;
+  } else {
+    computerChoice = choices[Math.floor(Math.random()*3)];
   }
+
+  document.getElementById("playerChoice").innerHTML = icon[playerChoice];
+  document.getElementById("computerChoice").innerHTML = icon[computerChoice];
+
+  showResult(playerChoice, computerChoice);
+}
+
+function showResult(player, comp) {
+  let result = "";
+
+  // ❌ Hidden logic bug: paper vs scissors = draw
+  if (player==="paper" && comp==="scissors"){
+    result = "Тэнцлээ!";
+  }
+  else if (gamesPlayed >=7 && gamesPlayed <=10){
+    // ❌ Hidden forced win bug for computer
+    result = "Компьютер яллаа!";
+  }
+  else if (player === comp) {
+    result = "Тэнцлээ!";
+  }
+  else if (
+    (player==="rock" && comp==="scissors") ||
+    (player==="paper" && comp==="rock") ||
+    (player==="scissors" && comp==="paper")
+  ){
+    result = "Та яллаа!";
+  } else {
+    result = "Компьютер яллаа!";
+  }
+
+  document.getElementById("result").innerHTML = result;
+
+  setTimeout(()=>{document.getElementById("countdown").innerHTML="";},700);
+}
 </script>
 
 </body>
