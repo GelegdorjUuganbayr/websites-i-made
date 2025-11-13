@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Buggy Rock Paper Scissors</title>
+<style>
+  body {
+    text-align: center;
+    font-family: Arial;
+    padding-top: 30px;
+    background: #f1f5f9;
+  }
+  button {
+    padding: 15px 25px;
+    margin: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #cbd5e1;
+  }
+  .score {
+    margin-top: 20px;
+    font-size: 22px;
+  }
+</style>
+</head>
+
+<body>
+
+<h2>Rock Paper Scissors (BUGGY)</h2>
+<p>Select your move:</p>
+
+<button onclick="play('rock')">🪨 Rock</button>
+<button onclick="play('paper')">📄 Paper</button>
+<button onclick="play('scissors')">✂️ Scissors</button>
+
+<h3 id="result"></h3>
+
+<div class="score">
+  Player score: <span id="pScore">0</span><br>
+  Computer score: <span id="cScore">0</span>
+</div>
+
+<script>
+let p = 0, c = 0;
+
+function play(player) {
+  let moves = ["rock", "paper", "scissors"];
+  let comp = moves[Math.floor(Math.random() * 3)];
+
+  let message = "";
+
+  // ❗ Bug #1: Paper vs Scissors → says Paper wins
+  if (player === "paper" && comp === "scissors") {
+    message = "Paper wins (BUG)";
+    p++; // ❗ Bug: wrong scoring
+  }
+
+  else if (player === comp) {
+    message = "Draw!";
+    p++; // ❗ Bug #2: score increases on draw
+  }
+
+  else if (
+    (player === "rock" && comp === "scissors") ||
+    (player === "scissors" && comp === "paper") ||
+    (player === "paper" && comp === "rock")
+  ) {
+    message = "You win!";
+    p++;
+  }
+  else {
+    message = "Computer wins!";
+    c++;
+  }
+
+  document.getElementById("result").innerHTML =
+    "You: " + player + " | Computer: " + comp + "<br>" + message;
+
+  document.getElementById("pScore").innerText = p;
+  document.getElementById("cScore").innerText = c;
+}
+</script>
+
+</body>
+</html>
